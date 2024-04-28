@@ -1,4 +1,5 @@
 import random
+import numpy as np
 
 print("Welcome to Tic Tac Toe")
 print("----------------------")
@@ -7,6 +8,32 @@ possibleNumbers = [1,2,3,4,5,6,7,8,9]
 gameBoard = [[1,2,3], [4,5,6], [7,8,9]]
 rows = 3
 cols = 3
+leaveLoop = False
+turnCounter = 0
+
+class Board:
+    def __init__(self):
+        self.squares = np.zeros((rows, cols))
+
+    def markedSquares(self, row, col, player):
+        pass
+        
+
+class AI:
+    def __init__(self, level=0, player=2):
+        self.level = level
+        self.player = player
+
+    def rndChoice(self, board):
+        aiChoice = random.choice(possibleNumbers)
+
+    def eval(self, gameBoard):
+        if self.level == 0:
+            pass
+        else:
+            #minimax algoritham choice
+            pass
+            
 
 def printGameBoard():
     for x in range(rows):
@@ -92,9 +119,6 @@ def checkForWinner(gameBoard):
         return "O"
     
 
-leaveLoop = False
-turnCounter = 0
-
 while(leaveLoop == False):
     # It's the players turn
     if(turnCounter % 2 == 1):
@@ -106,7 +130,6 @@ while(leaveLoop == False):
         else:
             print("Input is already in use. Please pick another number!")
         turnCounter += 1  
-        checkForWinner(gameBoard)
     # It's the ai's turn
     else:
         # Test ai
@@ -118,5 +141,11 @@ while(leaveLoop == False):
                 possibleNumbers.remove(aiChoice)
                 turnCounter += 1
                 break
-            checkForWinner(gameBoard)
+    
+    winner = checkForWinner(gameBoard)
+    if winner == "X" or winner == "O":
+        leaveLoop = True
+    else:
+        leaveLoop = False
+            
         
