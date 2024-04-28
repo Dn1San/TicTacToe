@@ -3,6 +3,12 @@ import numpy as np
 
 print("Welcome to Tic Tac Toe")
 print("----------------------")
+print("\nPlease pick a difficulty level from numbers 1 - 3")
+print("1 = Easy")
+print("2 = Hard")
+print("3 = Master")
+diffecultyLevel = input()
+
 
 possibleNumbers = [1,2,3,4,5,6,7,8,9]
 gameBoard = [[1,2,3], [4,5,6], [7,8,9]]
@@ -10,30 +16,7 @@ rows = 3
 cols = 3
 leaveLoop = False
 turnCounter = 0
-
-class Board:
-    def __init__(self):
-        self.squares = np.zeros((rows, cols))
-
-    def markedSquares(self, row, col, player):
-        pass
-        
-
-class AI:
-    def __init__(self, level=0, player=2):
-        self.level = level
-        self.player = player
-
-    def rndChoice(self, board):
-        aiChoice = random.choice(possibleNumbers)
-
-    def eval(self, gameBoard):
-        if self.level == 0:
-            pass
-        else:
-            #minimax algoritham choice
-            pass
-            
+      
 
 def printGameBoard():
     for x in range(rows):
@@ -64,60 +47,36 @@ def modifyArray(num, turn):
         gameBoard[2][1] = turn
     elif(num == 8):
         gameBoard[2][2] = turn
-
-def checkForWinner(gameBoard):
-    # x axis
-    if(gameBoard[0][0] == "X" and gameBoard[0][1] == "X" and gameBoard[0][2] == "X"):
-        print("X has won!")
-        return "X"
-    elif(gameBoard[0][0] == "O" and gameBoard[0][1] == "O" and gameBoard[0][2] == "O"):
-        print("O has won!")
-        return "O"
-    elif(gameBoard[1][0] == "X" and gameBoard[1][1] == "X" and gameBoard[1][2] == "X"):
-        print("X has won!")
-        return "X"
-    elif(gameBoard[1][0] == "O" and gameBoard[1][1] == "O" and gameBoard[1][2] == "O"):
-        print("O has won!")
-        return "O"
-    elif(gameBoard[2][0] == "X" and gameBoard[2][1] == "X" and gameBoard[2][2] == "X"):
-        print("X has won!")
-        return "X"
-    elif(gameBoard[2][0] == "O" and gameBoard[2][1] == "O" and gameBoard[2][2] == "O"):
-        print("O has won!")
-        return "O"
-    # y axis
-    elif(gameBoard[0][0] == "X" and gameBoard[1][0] == "X" and gameBoard[2][0] == "X"):
-        print("X has won!")
-        return "X"
-    elif(gameBoard[0][0] == "O" and gameBoard[1][0] == "O" and gameBoard[2][0] == "O"):
-        print("O has won!")
-        return "O"
-    elif(gameBoard[0][1] == "X" and gameBoard[1][1] == "X" and gameBoard[2][1] == "X"):
-        print("X has won!")
-        return "X"
-    elif(gameBoard[0][1] == "O" and gameBoard[1][1] == "O" and gameBoard[2][1] == "O"):
-        print("O has won!")
-        return "O"
-    elif(gameBoard[0][2] == "X" and gameBoard[1][2] == "X" and gameBoard[2][2] == "X"):
-        print("X has won!")
-        return "X"
-    elif(gameBoard[0][2] == "O" and gameBoard[1][2] == "O" and gameBoard[2][2] == "O"):
-        print("O has won!")
-        return "O"
-    # z axis
-    elif(gameBoard[0][0] == "X" and gameBoard[1][1] == "X" and gameBoard[2][2] == "X"):
-        print("X has won!")
-        return "X"
-    elif(gameBoard[0][0] == "O" and gameBoard[1][1] == "O" and gameBoard[2][2] == "O"):
-        print("O has won!")
-        return "O"
-    elif(gameBoard[0][2] == "X" and gameBoard[1][1] == "X" and gameBoard[2][0] == "X"):
-        print("X has won!")
-        return "X"
-    elif(gameBoard[0][2] == "O" and gameBoard[1][1] == "O" and gameBoard[2][0] == "O"):
-        print("O has won!")
-        return "O"
     
+def checkGameIsOver(gameBoard):
+    for i in range(3):
+        #check x axis
+        if(gameBoard[i][0] == gameBoard[i][1] and gameBoard[i][1] == gameBoard[i][2]):
+           return gameBoard[i][0]
+        #check y axis
+        if(gameBoard[0][i] == gameBoard[1][i] and gameBoard[1][i] == gameBoard[2][i]):
+           return gameBoard[0][i]
+    #check diagonals
+    if(gameBoard[0][0] == gameBoard[1][1] and gameBoard[1][1] == gameBoard[2][2]):
+        return gameBoard[0][0]
+    if(gameBoard[0][2] == gameBoard[1][1] and gameBoard[1][1] == gameBoard[2][0]):
+        return gameBoard[0][2]
+    #check draw (board full but no winner)
+    for x in range(3):
+        for y in range(3):
+            if not (gameBoard[x][y] == "X" or gameBoard[x][y] == "O"):
+                return False
+                # game is still going on
+    return "Draw" #game is a draw  
+    
+def easyAI():
+    return random.choice(possibleNumbers)
+
+def hardAI():
+    pass
+
+def masterAI():
+    pass
 
 while(leaveLoop == False):
     # It's the players turn
@@ -134,7 +93,12 @@ while(leaveLoop == False):
     else:
         # Test ai
         while(True):
-            aiChoice = random.choice(possibleNumbers)
+            if diffecultyLevel == "1":
+                aiChoice = easyAI()
+            elif diffecultyLevel == "2":
+                aiChoice = hardAI()
+            elif diffecultyLevel == "3":
+                aiChoice = masterAI()
             print("\nAi Choice: ", aiChoice)
             if(aiChoice in possibleNumbers):
                 modifyArray(aiChoice, "O")
@@ -142,8 +106,15 @@ while(leaveLoop == False):
                 turnCounter += 1
                 break
     
-    winner = checkForWinner(gameBoard)
-    if winner == "X" or winner == "O":
+    winner = checkGameIsOver(gameBoard)
+    if winner == "X":
+        print("X has won!")
+        leaveLoop = True
+    elif winner == "O":
+        print("O has won!")
+        leaveLoop = True
+    elif winner == "Draw":
+        print("Draw!")
         leaveLoop = True
     else:
         leaveLoop = False
