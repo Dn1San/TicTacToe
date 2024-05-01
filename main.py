@@ -1,4 +1,5 @@
 import random
+import copy
 import numpy as np
 
 print("Welcome to Tic Tac Toe")
@@ -47,6 +48,8 @@ def modifyArray(num, turn):
         gameBoard[2][1] = turn
     elif(num == 8):
         gameBoard[2][2] = turn
+
+
     
 def checkGameIsOver(gameBoard):
     for i in range(3):
@@ -73,10 +76,66 @@ def easyAI():
     return random.choice(possibleNumbers)
 
 def hardAI():
-    pass
+    tempBoard = copy.deepcopy(gameBoard)
+    for num in range(len(possibleNumbers)):
+        if(num == 0):
+            tempBoard[0][0] = "O"
+        elif(num == 1):
+            tempBoard[0][1] = "O"
+        elif(num == 2):
+            tempBoard[0][2] = "O"
+        elif(num == 3):
+            tempBoard[1][0] = "O"
+        elif(num == 4):
+            tempBoard[1][1] = "O"
+        elif(num == 5):
+            tempBoard[1][2] = "O"
+        elif(num == 6):
+            tempBoard[2][0] = "O"
+        elif(num == 7):
+            tempBoard[2][1] = "O"
+        elif(num == 8):
+            tempBoard[2][2] = "O"
+        winner = checkGameIsOver(tempBoard)
+    
+        if winner == "O":
+            choice = num
+        elif 
 
-def masterAI():
-    pass
+
+    for x in range(len(possibleNumbers)):
+        if possibleNumbers[x] == 5:
+            choice = x
+
+    else:
+        choice = random.choice(possibleNumbers)
+    
+    return choice
+    
+def masterAI(gameBoard, depth, ismaximizer):
+    case = checkGameIsOver(gameBoard)
+
+    # player wins
+    if case == "X":
+        return 1
+    #ai wins
+    if case == "O":
+        return -1
+    #draw
+    if case == "Draw":
+        return 0
+    
+    if ismaximizer:
+        pass
+
+    elif not ismaximizer:
+        minEval = 100
+        bestMove = None
+        emptySquares = possibleNumbers
+
+        for (row, col) in emptySquares:
+            tempBoard = copy.deepcopy(gameBoard)
+            tempBoard
 
 while(leaveLoop == False):
     # It's the players turn
