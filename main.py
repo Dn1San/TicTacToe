@@ -75,67 +75,6 @@ def checkGameIsOver(gameBoard):
 def easyAI():
     return random.choice(possibleNumbers)
 
-def hardAI():
-    tempBoard = copy.deepcopy(gameBoard)
-    for num in range(len(possibleNumbers)):
-        if(num == 0):
-            tempBoard[0][0] = "O"
-        elif(num == 1):
-            tempBoard[0][1] = "O"
-        elif(num == 2):
-            tempBoard[0][2] = "O"
-        elif(num == 3):
-            tempBoard[1][0] = "O"
-        elif(num == 4):
-            tempBoard[1][1] = "O"
-        elif(num == 5):
-            tempBoard[1][2] = "O"
-        elif(num == 6):
-            tempBoard[2][0] = "O"
-        elif(num == 7):
-            tempBoard[2][1] = "O"
-        elif(num == 8):
-            tempBoard[2][2] = "O"
-        winner = checkGameIsOver(tempBoard)
-    
-        if winner == "O":
-            choice = num
-        elif 
-
-
-    for x in range(len(possibleNumbers)):
-        if possibleNumbers[x] == 5:
-            choice = x
-
-    else:
-        choice = random.choice(possibleNumbers)
-    
-    return choice
-    
-def masterAI(gameBoard, depth, ismaximizer):
-    case = checkGameIsOver(gameBoard)
-
-    # player wins
-    if case == "X":
-        return 1
-    #ai wins
-    if case == "O":
-        return -1
-    #draw
-    if case == "Draw":
-        return 0
-    
-    if ismaximizer:
-        pass
-
-    elif not ismaximizer:
-        minEval = 100
-        bestMove = None
-        emptySquares = possibleNumbers
-
-        for (row, col) in emptySquares:
-            tempBoard = copy.deepcopy(gameBoard)
-            tempBoard
 
 while(leaveLoop == False):
     # It's the players turn
@@ -154,10 +93,6 @@ while(leaveLoop == False):
         while(True):
             if diffecultyLevel == "1":
                 aiChoice = easyAI()
-            elif diffecultyLevel == "2":
-                aiChoice = hardAI()
-            elif diffecultyLevel == "3":
-                aiChoice = masterAI()
             print("\nAi Choice: ", aiChoice)
             if(aiChoice in possibleNumbers):
                 modifyArray(aiChoice, "O")
