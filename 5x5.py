@@ -86,7 +86,7 @@ class Board():
         return self.marked_sqrs == 0
 
 class AI:
-    def __init__(self, level=1, player = 2):
+    def __init__(self, level=2, player = 2):
         self.level = level
         self.player = player
 
@@ -96,46 +96,48 @@ class AI:
 
         return empty_sqrs[idx]
     
-    def minimax(self, board, depth, maximize, alpha = -inf, beta = -inf):
+    def minimax(self, board, depth, maximizing, alpha = -inf, beta = -inf):
         case = board.final_state()
 
         #Player 1 Win
-        if case == 1:
-            return 10 + depth, None #eval, move
+        if case == 10 + depth:
+            return 1, None #eval, move
         #Player 2 Win
-        if case not in (' ',"draw"):
+        if case == 2:
             return -10 - depth, None
         #Draw
-        if board.is_full():
+        elif board.is_full():
             return 0, None
-        if depth == 0:
-            return None, None
         
         global boards
         boards += 1
-        
+
         best_move = None
+        value = None
+    
+        
         empty_sqrs = board.get_empty_sqrs()
-        eval = None
 
         for (row, col) in empty_sqrs:
             temp_board = copy.deepcopy(board)
-            temp_board.mark_sqr(row, col, self.player % 2 + 1)
-            _,eval = self.minimax(temp_board, depth - 1, False, alpha, beta)[0]
-            
-            if (eval is not None and (eval > alpha if maximize else eval < beta)):
-                if maximize:
-                    alpha = eval
+            temp_board.mark_sqr(row, col, self.player)
+            value = self.minimax(temp_board,depth + 1, True)[0]
+            if (value is not None and (value > alpha if maximizing else value < beta)):
+                if maximizing:
+                    alpha = value
                 else:
-                    beta = eval
-                if (alpha != -inf and beta != inf and alpha >= beta if maximize else beta >= alpha):
+                    beta = value
+                if (alpha != -inf and beta != inf and alpha >= beta if maximizing else beta >= alpha):
                     break
                 best_move = row, col
 
-            if maximize:
-                return alpha, best_move
-                
-            return beta, best_move
+            #test
+            print(temp_board.squares)
+            print(f'best move is {best_move} eval score is {beta}')
+        if maximizing:
+            return alpha, best_move
+
+        return beta, best_move
 
         
         
